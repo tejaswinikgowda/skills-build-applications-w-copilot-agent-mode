@@ -7,7 +7,10 @@ type ApiDataState<T> = {
   loading: boolean;
 };
 
-export function useApiData<T>(path: string): ApiDataState<T> {
+export function useApiData<T>(
+  path: string,
+  load: (path: string) => Promise<T> = getJson<T>,
+): ApiDataState<T> {
   const [data, setData] = useState<T>();
   const [error, setError] = useState<string>();
   const [loading, setLoading] = useState(true);
@@ -17,7 +20,7 @@ export function useApiData<T>(path: string): ApiDataState<T> {
     setLoading(true);
     setError(undefined);
 
-    getJson<T>(path).then(
+    load(path).then(
       (result) => {
         if (active) {
           setData(result);
@@ -35,7 +38,7 @@ export function useApiData<T>(path: string): ApiDataState<T> {
     return () => {
       active = false;
     };
-  }, [path]);
+  }, [load, path]);
 
   return { data, error, loading };
 }

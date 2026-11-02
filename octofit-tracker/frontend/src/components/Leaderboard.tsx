@@ -1,10 +1,14 @@
 import { useApiData } from '../hooks/useApiData.js';
+import { getJson } from '../api/client.js';
 
 type LeaderboardEntry = { teamName: string; totalPoints: number; rank: number };
 type LeaderboardResponse = { leaderboard: LeaderboardEntry[] };
 
 export default function Leaderboard() {
-  const { data, error, loading } = useApiData<LeaderboardResponse>('/api/leaderboard');
+  const { data, error, loading } = useApiData(
+    '/api/leaderboard',
+    getJson<LeaderboardResponse>,
+  );
 
   return (
     <section className="card">
