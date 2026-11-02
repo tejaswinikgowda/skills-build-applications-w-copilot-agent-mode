@@ -21,7 +21,7 @@ export default function Teams() {
               <li className="list-group-item" key={team.name}>
                 <h3 className="h5">{team.name}</h3>
                 {team.mascot && <p>Mascot: {team.mascot}</p>}
-                <p>Members: {team.members.join(', ') || 'No members yet'}</p>
+                <p>{team.members.length === 1 ? '1 member' : `${team.members.length} members`}</p>
               </li>
             ))}
           </ul>
